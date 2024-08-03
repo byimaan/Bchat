@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@repo/db": "*",
     "@repo/ui": "*",
     "react": "^18",
     "react-dom": "^18",
