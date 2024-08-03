@@ -1,0 +1,2 @@
+
+This file tells the instructions which were followed to setup the prisma and to shared over the other applicaions :-
