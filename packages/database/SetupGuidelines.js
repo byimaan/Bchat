@@ -62,4 +62,17 @@ This file tells the instructions which were followed to setup the prisma and to 
             ".": "./src/index.ts"
         } 
     }
+
+[4] All Done! (Ready to be used in other projects under 'apps')
+    <- But remember config the following changes in package.json of consumers -!>
+    // e.g apps/web/package.json
+    {
+        "dependencies": {
+            "@repo/db": "*"
+        }
+    }
+
+    import { PrismaClient } from '@repo/db';
+    
+    const client = new PrismaClient();
 */

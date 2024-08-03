@@ -10,5 +10,9 @@
   "scripts": {
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate"
+  },
+
+  "exports": {
+    "." : "./src/index.ts"
   }
 }
