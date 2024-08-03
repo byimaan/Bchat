@@ -1,5 +1,5 @@
 /*
-This file tells the instructions which were followed to setup the prisma and to shared over the other applicaions :-
+This file tells the instructions which were followed to setup the prisma and to share it as package over the other applicaions :-
 
 [1] Add a new database package (packages/database/package.json)
     // Before
@@ -75,4 +75,31 @@ This file tells the instructions which were followed to setup the prisma and to 
     import { PrismaClient } from '@repo/db';
     
     const client = new PrismaClient();
+
+[5] Optimize and figuring out the scripts 
+    // Till here we have reuseable '@repo/db' pacakge 
+    // But our db:generate scripts are not optimized yet.
+    
+    <-- Imoportant -!>
+    // --> Suppose a new developer comes in your team andnot aware of that we have to run turbo db:generate before running 'turbo dev' they will get errros
+
+    // SO in order to automate this process we will add a script dependency.
+    // .turbo.json
+    {
+        "tasks": {
+            "dev": {
+            "dependsOn": ["^db:generate"], // new
+            "cache": false
+            },
+            "build": {
+            "dependsOn": ["^db:generate"], // new
+            "outputs": ["your-outputs-here"]
+            },
+            "db:generate": {
+            "cache": false
+            }
+        }
+    }
+
+
 */
