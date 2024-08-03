@@ -51,4 +51,15 @@ This file tells the instructions which were followed to setup the prisma and to 
     <-- HEADS UP -!>
     // Use --skip generate flag on db:push
 
+[3] Exporting your cient 
+    // packages/database/src/index.ts
+    export * from '@prisma/client';
+
+    // then how other application would be able to access this
+    // So add the following in (packages/database/package.json)
+    {
+        "exports": {
+            ".": "./src/index.ts"
+        } 
+    }
 */
