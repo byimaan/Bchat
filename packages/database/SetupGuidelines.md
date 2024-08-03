@@ -1,8 +1,9 @@
-/*
-This file tells the instructions which were followed to setup the prisma and to share it as package over the other applicaions :-
+# This file tells the instructions which were followed to setup the prisma and to share it as package over the other applications :-
 
-[1] Add a new database package (packages/database/package.json)
-    // Before
+<br>
+
+1. Add a new database package (packages/database/package.json)
+    > Before
     {
         "name": "database", // change
         "version": "1.0.0", // change
@@ -10,7 +11,7 @@ This file tells the instructions which were followed to setup the prisma and to 
         "license": "MIT" // remove
     }
 
-    // After
+    > After
     {
         "name": "@repo/db",
         "version": "0.0.0",
@@ -22,9 +23,9 @@ This file tells the instructions which were followed to setup the prisma and to 
         }
     }		
     <-- CMD -!>
-	[1.1] npx prisma init // to create prisma.schema and more 
+	1. ( npx || yarn ) prisma init // to create prisma.schema and more 
 
-[2] Create Scripts (packages/database/package.json)
+2.  Create Scripts (packages/database/package.json)
     <-- following //After -!>
         {
             "scripts": {
@@ -45,13 +46,14 @@ This file tells the instructions which were followed to setup the prisma and to 
                 }	
             }
         }
+
     <-- CMD -!>
-    (At root of project) turbo db:push db:generate
+    > (At root of project) turbo db:push db:generate
 
     <-- HEADS UP -!>
-    // Use --skip generate flag on db:push
+    > Use --skip generate flag on db:push
 
-[3] Exporting your cient 
+3. Exporting your cient 
     // packages/database/src/index.ts
     export * from '@prisma/client';
 
@@ -63,7 +65,7 @@ This file tells the instructions which were followed to setup the prisma and to 
         } 
     }
 
-[4] All Done! (Ready to be used in other projects under 'apps')
+4. All Done! (Ready to be used in other projects under 'apps')
     <- But remember config the following changes in package.json of consumers -!>
     // e.g apps/web/package.json
     {
@@ -76,12 +78,12 @@ This file tells the instructions which were followed to setup the prisma and to 
     
     const client = new PrismaClient();
 
-[5] Optimize and figuring out the scripts 
+5. Optimize and figuring out the scripts 
     // Till here we have reuseable '@repo/db' pacakge 
     // But our db:generate scripts are not optimized yet.
     
-    <-- Imoportant -!>
-    // --> Suppose a new developer comes in your team andnot aware of that we have to run turbo db:generate before running 'turbo dev' they will get errros
+    > <-- Imoportant -!>
+    **Suppose a new developer comes in your team andnot aware of that we have to run turbo db:generate before running 'turbo dev' they will get errros**
 
     // SO in order to automate this process we will add a script dependency.
     // .turbo.json
