@@ -1,7 +1,6 @@
 // Byimaan
 
 import BChatText from "@/components/common/AppText.server";
-import { Button } from "@/components/ui/button";
 
 import Link from "next/link";
 
@@ -13,7 +12,8 @@ export default function Home() {
 
         <div className="text-area flex flex-col text-left sm:text-center space-y-10">
           <BChatText sizeInTailwind="text-[8rem]"/>
-          <h2 className="text-lg text-gray-700">"Stay connected with friends and family anytime, anywhere. <br /> Experience seamless communication with our user-friendly interface. <br /> Your conversations, simplified and secure."</h2>
+          <h2 className="text-lg text-secondary-bchat"> <span className="text-bold text-3xl text-black"> " </span>
+            Stay connected with friends and family anytime, anywhere. <br /> Experience seamless communication with our user-friendly interface. <br /> Your conversations, simplified and secure.<span className="text-bold text-3xl text-black"> " </span></h2>
         </div>
 
         <div className="buttons flex justify-around flex-col sm:flex-row gap-4 ">

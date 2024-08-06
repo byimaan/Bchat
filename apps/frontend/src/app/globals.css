@@ -12,8 +12,10 @@
     --popover-foreground: 222.2 84% 4.9%;
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
+    --primary-bchat: #14b8a6;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-bchat: #3f3f46;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96.1%;
@@ -76,8 +78,24 @@
   background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
 }
 
-#msg-clip-path {
-  clip-path: polygon(0 0, 100% 0%, 100% 75%, 33% 76%, 9% 90%, 15% 75%, 0% 75%);
+#loading {
+  border-radius: 50%;
+  border-width:0px;
+  border-right: 2px solid rgb(172, 167, 167)
+}
+
+.loading-animation{
+  display: inline-block;
+  border-color: transparent;
+  border: 5px solid transparent;
+  border-radius: 50%;
+  animation: spinner 1s ease infinite;
+}
+
+@keyframes spinner {
+  100%{
+      transform: rotate(360deg);
+  }
 }
 
 @layer base {

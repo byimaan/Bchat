@@ -27,10 +27,12 @@ const config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          bchat: "var(--primary-bchat)"
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          bchat:"var(--secondary-bchat)"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
