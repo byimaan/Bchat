@@ -1,6 +1,7 @@
 // Byimaan
 
 import BChatText from "@/components/common/AppText.server";
+import { TechStack } from "@/components/common/TechStack.server";
 
 import Link from "next/link";
 
@@ -10,7 +11,8 @@ export default function Home() {
 
       <div className="holder w-full sm:w-[540px] xl:w-[880px] space-y-16">
 
-        <div className="text-area flex flex-col text-left sm:text-center space-y-10">
+        <div className="text-area flex flex-col text-left sm:text-center space-y-10 ">
+
           <BChatText sizeInTailwind="text-[8rem]"/>
           <h2 className="text-lg text-secondary-bchat"> <span className="text-bold text-3xl text-black"> " </span>
             Stay connected with friends and family anytime, anywhere. <br /> Experience seamless communication with our user-friendly interface. <br /> Your conversations, simplified and secure.<span className="text-bold text-3xl text-black"> " </span></h2>
@@ -24,6 +26,10 @@ export default function Home() {
             Signup
           </Link>
         </div>
+
+        {
+          TechStack.render["*"]({size: 24, className:"w-full flex justify-center items-center gap-3 sm:gap-5", iconClassName: "flex gap-3 sm:gap-5 text-bold"})
+        }
       </div>
     </main>
   );
