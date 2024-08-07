@@ -13,9 +13,9 @@ export default function Home() {
 
         <div className="text-area flex flex-col text-left sm:text-center space-y-10 ">
 
-          <BChatText sizeInTailwind="text-[8rem]"
+          <BChatText textSizeInTailwind="text-[8rem]"
             spanChildOf_B_letter={
-              <span className='absolute left-full top-0 text-[0.4em]  tracking-wider'>YIਮਾਨ</span>
+              <span className='absolute left-full top-5 text-[0.3em] tracking-wider'>YIਮਾਨ</span>
             }
           />
           <h2 className="text-lg text-secondary-bchat"> <span className="text-bold text-3xl text-black"> " </span>
@@ -23,10 +23,10 @@ export default function Home() {
         </div>
 
         <div className="buttons flex justify-around flex-col sm:flex-row gap-4 ">
-          <Link href={"/authenticate?form=login"} className="rounded-lg bg-teal-400 min-w-24 font-semibold py-3 px-5 sm:w-fit hover:bg-teal-500 text-white text-center">
+          <Link href={"/authentication?form=login"} className="rounded-lg bg-teal-400 min-w-24 font-semibold py-3 px-5 sm:w-fit hover:bg-teal-500 text-white text-center">
             Login
           </Link>
-          <Link href={"/authenticate?form=register"} className="sm:w-fit rounded-lg min-w-24 bg-teal-400 font-semibold py-3 px-5 hover:bg-teal-500 text-white text-center">
+          <Link href={"/authentication?form=register"} className="sm:w-fit rounded-lg min-w-24 bg-teal-400 font-semibold py-3 px-5 hover:bg-teal-500 text-white text-center">
             Signup
           </Link>
         </div>

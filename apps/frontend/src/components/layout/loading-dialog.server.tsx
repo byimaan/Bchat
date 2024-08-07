@@ -18,7 +18,7 @@ const AppLoading = ({className, children}: Props) => {
             <div className="loading-holder bg-white rounded-lg flex-col gap-4 items-center justify-center py-6 px-4 text-sm">
 
                 <div className="flex justify-center gap-4">
-                    <BChatText sizeInTailwind="text-2xl"/>
+                    <BChatText textSizeInTailwind="text-2xl"/>
                     <Loading sizeInTW="size-6" borderWidthInTW="border-2"/>
                 </div>
                 <div>

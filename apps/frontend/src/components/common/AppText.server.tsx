@@ -5,18 +5,18 @@ import React from 'react';
 
 type Props = {
     className ?: string;
-    sizeInTailwind ?: string;
+    textSizeInTailwind ?: string;
     overwriteDefaultClassName ?: boolean;
     spanChildOf_B_letter ?: React.ReactNode
 }
 
-function BChatText({className="", sizeInTailwind="text-[4.5rem]", overwriteDefaultClassName=false, spanChildOf_B_letter}: Props) {
+function BChatText({className="", textSizeInTailwind="text-[4.5rem]", overwriteDefaultClassName=false, spanChildOf_B_letter}: Props) {
 
     let h1ClassName = overwriteDefaultClassName ? className : "oswald font-bold cursor-pointer" + className;
 
 
     return (
-        <h1 id='app-bchat-text' className={cn('oswald', 'text-primary-bchat', sizeInTailwind, h1ClassName)}>
+        <h1 id='app-bchat-text' className={cn('oswald', 'text-primary-bchat', textSizeInTailwind, h1ClassName)}>
             <span> 
                 <span className='relative'>
                     B
