@@ -23,7 +23,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`relative p-2 h-dvh max-h-fit text-secondary-bchat ${inter.className} ${oswald.variable}`}>
+      <body className={`relative px-2 min-h-dvh max-h-fit text-secondary-bchat ${inter.className} ${oswald.variable}`}>
         <LayoutBackground />
         <Toaster />
 

@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-full flex-col items-center justify-center">
+    <main className="flex min-h-dvh flex-col items-center justify-center">
 
       <div className="holder w-full sm:w-[540px] xl:w-[880px] space-y-16">
 

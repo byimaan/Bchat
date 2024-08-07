@@ -17,7 +17,7 @@ function FieldNotify({children, className, allowToRender, overWriteDefaultClassN
         return <></>
     };
 
-    let defaultClassName = "bg-red-400 text-xs font-semibold p-3 my-3 rounded-lg text-white";
+    let defaultClassName = "text-red-400 text-xs font-semibold rounded-lg ";
 
     if (overWriteDefaultClassName){
         defaultClassName = ''

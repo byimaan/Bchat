@@ -24,8 +24,8 @@ import { Label } from "@/components/ui/label"
 import FieldNotify from "./field-notify-box";
 
 const loginFormSchema = z.object({
-    email: z.string().email("Incorrect email."),
-    password: z.string().min(1, "This field is required.")
+    email: z.string().email("* Incorrect email."),
+    password: z.string().min(1, "* This field is required.")
 });
 
 type loginFormValues= z.infer<typeof loginFormSchema>
