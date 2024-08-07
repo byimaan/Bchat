@@ -7,9 +7,10 @@ type Props = {
     className ?: string;
     sizeInTailwind ?: string;
     overwriteDefaultClassName ?: boolean;
+    spanChildOf_B_letter ?: React.ReactNode
 }
 
-function BChatText({className="", sizeInTailwind="text-[4.5rem]", overwriteDefaultClassName=false,}: Props) {
+function BChatText({className="", sizeInTailwind="text-[4.5rem]", overwriteDefaultClassName=false, spanChildOf_B_letter}: Props) {
 
     let h1ClassName = overwriteDefaultClassName ? className : "oswald font-bold cursor-pointer" + className;
 
@@ -19,10 +20,10 @@ function BChatText({className="", sizeInTailwind="text-[4.5rem]", overwriteDefau
             <span> 
                 <span className='relative'>
                     B
-                    <span className='absolute left-full top-6 text-[0.3em] leading-[2] tracking-wider'>YIਮਾਨ</span>
+                    {spanChildOf_B_letter}
                 </span>
             </span>
-            <span className='text-[.5em]'>
+            <span className='text-[.6em]'>
                 CHAT
             </span>
         </h1>
