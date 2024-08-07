@@ -16,8 +16,13 @@ function BChatText({className="", sizeInTailwind="text-[4.5rem]", overwriteDefau
 
     return (
         <h1 id='app-bchat-text' className={cn('oswald', 'text-primary-bchat', sizeInTailwind, h1ClassName)}>
-            <span>B</span>
-            <span className='text-[.6em]'>
+            <span> 
+                <span className='relative'>
+                    B
+                    <span className='absolute left-full top-6 text-[0.3em] leading-[2] tracking-wider'>YIਮਾਨ</span>
+                </span>
+            </span>
+            <span className='text-[.5em]'>
                 CHAT
             </span>
         </h1>
