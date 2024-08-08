@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
-import LayoutBackground from "@/components/common/LayoutBackground.server";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { Suspense } from "react";
+import {SessionProvider} from 'next-auth/react'
 
+import LayoutBackground from "@/components/common/LayoutBackground.server";
 import { AppLoading } from "@/components/layout/loading-dialog.server";
 
 const inter = Inter({ subsets: ["latin"] })
@@ -23,14 +24,16 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`relative px-2 min-h-dvh max-h-fit text-secondary-bchat ${inter.className} ${oswald.variable}`}>
-        <LayoutBackground />
-        <Toaster />
+      <SessionProvider>
+        <body className={`relative px-2 min-h-dvh max-h-fit text-secondary-bchat ${inter.className} ${oswald.variable}`}>
+          <LayoutBackground />
+          <Toaster />
 
-        <Suspense key={"app-loading"} fallback={<AppLoading/>}>
-          {children}
-        </Suspense>
-      </body>
+          <Suspense key={"app-loading"} fallback={<AppLoading/>}>
+            {children}
+          </Suspense>
+        </body>
+      </SessionProvider>
     </html>
   );
 }
