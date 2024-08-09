@@ -11,7 +11,7 @@ type Props = {
 
 const AppLoading = ({className, children}: Props) => {
 
-    className = className ? className : 'absolute inset-0 bg-transparent grid place-items-center backdrop-blur-[3px]'
+    className = className ? className : 'fixed z-[9999] inset-0 bg-transparent grid place-items-center backdrop-blur-[3px]'
 
     return (
         <div className={cn(className)}>
