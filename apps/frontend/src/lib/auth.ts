@@ -33,7 +33,6 @@ const nextAuthConfiguration = NextAuth({
                 /**
                  * Login verfication logic
                  */
-
                 if (
                     typeof email === 'string'
                     && typeof password === 'string'
@@ -62,6 +61,7 @@ const nextAuthConfiguration = NextAuth({
                     }
                 }
 
+
                 return null
             }
         })
@@ -70,8 +70,8 @@ const nextAuthConfiguration = NextAuth({
         strategy: 'jwt'
     },
     pages: {
-        signIn: "/authentication?form=login",
-        error: "/authentication?form=login"
+        signIn: "/authentication",
+        error: "/authentication"
     },
     secret: process.env.AUTH_SECRET!,
     adapter: PrismaAdapter(db),

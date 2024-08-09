@@ -6,22 +6,29 @@
 
 "use client";
 
+import { signIn } from "next-auth/react";
+
 import {useForm} from "react-hook-form";
 import z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod"
+import { FaLock } from "react-icons/fa";
 
-import BChatText from "@/components/common/AppText.server";
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
 import FieldNotify from "./field-notify-box";
+import BChatText from "@/components/common/AppText.server";
+import { AppLoading } from "@/components/layout/loading-dialog.server";
+import toast from "react-hot-toast";
+
 
 const loginFormSchema = z.object({
     email: z.string().email("* Incorrect email."),
@@ -41,13 +48,26 @@ export function LoginForm(){
     });
 
     const handleFormSubmit = async (values: loginFormValues) => {
-        alert("Will submit your form shortly");
-        console.log("Check values ", values);
+
+        await signIn('credentials', {
+            ...values,
+            redirect: true,
+            redirectTo: '/bchat',
+        });
     };
+
+    const loading = form.formState.isSubmitting
 
     return (
 
         <Card>
+            {
+                loading && (
+                    <AppLoading>
+                        <p className="text-sm flex"><FaLock size={20} className="mr-2"></FaLock> BChat offfers secure authentication powered with next-auth</p>
+                    </AppLoading>
+                )
+            }
             <CardHeader>
                 <BChatText textSizeInTailwind="text-[2.6rem]"/>
                 <CardDescription>

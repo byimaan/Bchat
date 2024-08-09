@@ -7,15 +7,18 @@ import { cn } from "@/lib/utils";
 type Props = {
     className ?:string,
     children ?: React.ReactNode,
+    overWriteDefaultClassName ?: boolean,
 }
 
-const AppLoading = ({className, children}: Props) => {
+const AppLoading = ({className='', children, overWriteDefaultClassName=false}: Props) => {
 
-    className = className ? className : 'fixed z-[9999] inset-0 bg-transparent grid place-items-center backdrop-blur-[3px]'
+    let defaultClassName = 'fixed z-[9999] inset-0 bg-transparent grid place-items-center backdrop-blur-[3px] px-8';
+
+    className = overWriteDefaultClassName ? className : defaultClassName + " " + className
 
     return (
         <div className={cn(className)}>
-            <div className="loading-holder bg-white rounded-lg flex-col gap-4 items-center justify-center py-6 px-4 text-sm">
+            <div className="loading-holder bg-white rounded-lg flex-col gap-4 items-center justify-center py-6 px-4 text-sm sm:max-w-[400px]">
 
                 <div className="flex justify-center gap-4">
                     <BChatText textSizeInTailwind="text-2xl"/>
