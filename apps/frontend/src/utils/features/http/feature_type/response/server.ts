@@ -4,7 +4,7 @@
 class Server {
     constructor (private response: Response){
         this.response = response
-    }
+    };
 
     /** All the feature here */
 };
