@@ -6,6 +6,8 @@
 
 "use client";
 
+import { signIn } from "next-auth/react";
+
 import z from "zod";
 import {useForm} from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +25,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 import FieldNotify from "./field-notify-box";
+import toast from "react-hot-toast";
 
 const signupFormSchema = z.object({
     username: z.string().min(4, "* A valid username should be of atleast 4 letters"),
@@ -47,19 +50,63 @@ export default function RegisterForm(){
             password: '',
             rePassword: ''
         }
-    })
+    });
 
-    const handleFormSubmit = async({username, email, password, rePassword}: signupFormValues) => {
-        
-        if (password !== rePassword){
-            form.setError("rePassword", {
-                type: "manual",
-                message: "* Password do not match"
+
+    const handleFormSubmitTryCatch = async (values: signupFormValues) => {
+
+        const handleFormSubmit = async() => {
+            
+            const {username, email, password, rePassword} = values;
+    
+            if (password !== rePassword){
+                form.setError("rePassword", {
+                    type: "manual",
+                    message: "* Password do not match"
+                });
+                return
+            };
+           
+            const response = await fetch('/api/authentication/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values)
             });
-            return
-        }
-        alert('Will submit your form')
-    };
+    
+            const payload = await response.json();
+    
+            if (response.ok){
+                const {access_token} = payload;
+                if (access_token){
+                    await signIn('credentials', {
+                        access_token,
+                        redirect: true,
+                        redirectTo: '/bchat',
+                    });
+                } else {
+                    // even though this condition is very rare but still useful to handle it.
+                    toast.error("Oops! Somthing unexpected happened");
+                }
+            }
+    
+            if (payload?.userFriendlyData && payload?.userFriendlyData?.toast){
+                let cstmToast = toast.error;
+                const {message, type, position} = payload.userFriendlyData.toast;
+                if (type === 'SUCCESS') cstmToast = toast.success;
+                cstmToast(message)
+            }
+    
+        };
+        try {
+            await handleFormSubmit();
+        } catch {
+            toast.error("Oops! Something unexpected happened.")
+        };
+    }
+
+
 
     return (
         <Card className="my-2">
@@ -70,7 +117,7 @@ export default function RegisterForm(){
                 </CardDescription>
             </CardHeader>
 
-            <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+            <form onSubmit={form.handleSubmit(handleFormSubmitTryCatch)}>
                 <CardContent className="space-y-2">
                     <div className="space-y-1">
                         <Label htmlFor="username">Username</Label>
