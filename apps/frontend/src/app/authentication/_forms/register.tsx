@@ -1,9 +1,5 @@
 // BYIMAAN
 
-/**
- * 
- */
-
 "use client";
 
 import { signIn } from "next-auth/react";
@@ -57,7 +53,7 @@ export default function RegisterForm(){
 
         const handleFormSubmit = async() => {
             
-            const {username, email, password, rePassword} = values;
+            const { password, rePassword} = values;
     
             if (password !== rePassword){
                 form.setError("rePassword", {
@@ -105,8 +101,6 @@ export default function RegisterForm(){
             toast.error("Oops! Something unexpected happened.")
         };
     }
-
-
 
     return (
         <Card className="my-2">

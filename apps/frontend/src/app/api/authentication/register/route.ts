@@ -100,7 +100,9 @@ export async function POST(request: Request){
 
         const payload = {
             from: WHERE_IAM,
-            recipient: SRC_LIB_AUTH.address,
+            recipient: [
+                SRC_LIB_AUTH.address
+            ],
             user: newUserWithoutPassword
         };
 
@@ -110,7 +112,7 @@ export async function POST(request: Request){
                 expiresIn: SRC_LIB_AUTH.token.expiresIn
             }),
             'userFriendlyData': userFriendlyObject.addToastObject({
-                message: "Accont has been successfully created",
+                message: "Account has been successfully created",
                 type: 'SUCCESS'
             }).create()
         }, {
