@@ -9,7 +9,9 @@
   },
   "scripts": {
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate"
+    "db:push": "prisma db push --skip-generate",
+    "db:push:force-reset": "prisma db push --skip-generate --force-reset",
+    "db:studio": "prisma studio"
   },
 
   "exports": {
