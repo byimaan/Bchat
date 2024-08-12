@@ -15,6 +15,13 @@ class BcryptUtils {
         return isMatch
     }
 
+
+    static async generateHashPassword(password: string){
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        return hashedPassword;
+    }
+
     static generateRandomUUID(){
         return crypto.randomUUID()
     }
