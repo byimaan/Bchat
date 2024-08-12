@@ -6,6 +6,10 @@
 
 "use client";
 
+import toast from "react-hot-toast";
+import { useState } from "react";
+import { JwtPayload } from "jsonwebtoken";
+
 import { signIn } from "next-auth/react";
 
 import {useForm} from "react-hook-form";
@@ -27,8 +31,9 @@ import { Label } from "@/components/ui/label"
 import FieldNotify from "./field-notify-box";
 import BChatText from "@/components/common/AppText.server";
 import { AppLoading } from "@/components/layout/loading-dialog.server";
-import toast from "react-hot-toast";
+import ForgotPassword from "./forgot-password-btn";
 
+const WHERE_IAM = "src/app/authentication/_forms/login";
 
 const loginFormSchema = z.object({
     email: z.string().email("* Incorrect email."),
@@ -37,7 +42,21 @@ const loginFormSchema = z.object({
 
 type loginFormValues= z.infer<typeof loginFormSchema>
 
+
+type ForgotPasswordPayload = {
+    access_token: string;
+    metadata: {
+        recipient: string[],
+        token: {
+            email: string,
+            expiresInTimeStamp: number
+        }
+    }
+}
+
 export function LoginForm(){
+
+    const [forgotPasswordPayload, setForgotPasswordPayload] = useState<ForgotPasswordPayload | null>(null)
 
     const form = useForm<loginFormValues>({
         resolver: zodResolver(loginFormSchema),
@@ -47,16 +66,67 @@ export function LoginForm(){
         },
     });
 
-    const handleFormSubmit = async (values: loginFormValues) => {
 
-        await signIn('credentials', {
-            ...values,
-            redirect: true,
-            redirectTo: '/bchat',
-        });
+    const handleFormSubmitTryCatch = async (values: loginFormValues) => {
+        
+        const handleFormSubmit  = async () => {
+    
+            const response = await fetch("/api/authentication/login", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values)
+            });
+            const payload = await response.json();
+    
+            if (response.ok){
+                const {access_token} = payload;
+                if (access_token){
+                    await signIn('credentials', {
+                        access_token,
+                        redirect: true,
+                        redirectTo: '/bchat',
+                    });
+                } else {
+                    // even though this condition is very rare but still useful to handle it.
+                    toast.error("Oops! Somthing unexpected happened");
+                }
+            } else {
+                // 406 staus code means activate forgot_password
+                if (response.status === 406){
+                    const forgotPasswordPayload: ForgotPasswordPayload = payload;
+                    toast.error("Invalid credentials!");
+                    setForgotPasswordPayload(forgotPasswordPayload);
+                };
+            };
+    
+            // if any toast needed to display
+            if (payload?.userFriendlyData && payload.userFriendlyData?.toast){
+                const {message, type, position} = payload.userFriendlyData.toast;''
+                if (message && type && position){
+                    const cstmToast = type === 'ERROR' ? toast.error: toast.success;
+                    cstmToast(message);
+                }
+            }
+    
+        };
+        try {
+            await handleFormSubmit();
+        } catch {
+            toast.error("Opps! Something unexpected happened")
+        }
+
     };
 
-    const loading = form.formState.isSubmitting
+    const loading = form.formState.isSubmitting;
+
+    const renderForgotPassword = (
+        forgotPasswordPayload
+         && forgotPasswordPayload.metadata.recipient.includes(WHERE_IAM)
+          && forgotPasswordPayload.metadata.token.email === form.getValues('email').trim()
+           && forgotPasswordPayload.metadata.token.expiresInTimeStamp > Date.now()
+    );
 
     return (
 
@@ -75,7 +145,7 @@ export function LoginForm(){
                 </CardDescription>
             </CardHeader>
 
-            <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+            <form onSubmit={form.handleSubmit(handleFormSubmitTryCatch)}>
 
                 <CardContent className="space-y-2">
                     <div className="space-y-1">
@@ -96,6 +166,16 @@ export function LoginForm(){
                         <Input id="password" type="password" placeholder="f9!InhVA4v" className="focus-visible:ring-primary-bchat" {...form.register('password')}/>
                     </div>
                 </CardContent>
+
+                {
+                    renderForgotPassword && (
+                        <ForgotPassword
+                        className="text-xs text-cyan-600 font-semibold text-center cursor-pointer hover:text-primary-bchat"
+                        access_token={forgotPasswordPayload.access_token}>
+                            Forgot password?
+                        </ForgotPassword>
+                    )
+                }
 
                 <CardFooter>
                     <Button type="submit" className="bg-primary-bchat">Submit </Button>

@@ -8,8 +8,10 @@ import {PrismaAdapter} from "@auth/prisma-adapter"
 import { User } from "@repo/db";
 import { db } from "./db";
 
-import { BcryptUtils } from "@/utils/features/security/bcrypt";
+import { JWT } from "@/utils/features/security/jwt";
+import { JwtPayload } from "jsonwebtoken";
 
+const WHERE_IAM = "src/lib/auth";
 
 const nextAuthConfiguration = NextAuth({
     providers: [
@@ -20,47 +22,26 @@ const nextAuthConfiguration = NextAuth({
         Credentials({
             name: 'Credentials',
             credentials: {
-                email: {
-                    type: "email",
-                },
-                password: {
-                    type: "password"
+                'access_token': {
+                    type: 'text'
                 }
             },
 
             async authorize(credentials){
-                const {email, password} = credentials;
+                const {access_token} = credentials;
                 /**
                  * Login verfication logic
                  */
-                if (
-                    typeof email === 'string'
-                    && typeof password === 'string'
-                    && 
-                    /** Check if not empty string */
-                    email && password
-                ){
-                    const user = await db.user.findUnique({
-                        where: { email }
-                    });
-                    
-                    // if -> this
-                    if (user && user?.password){
-                        const passwordDoesMatch = await BcryptUtils.comparePassword({
-                            password,
-                            hashedPassword: user.password
-                        });
-
-                        // if -> if -> this
-                        if (passwordDoesMatch){
-                            const {password, ...adapterUser} = user;
-
-                            // returning a user info without password
-                            return adapterUser
-                        }
+                
+                if (access_token && typeof access_token === 'string'){
+                    const payload = JWT.verifyJWTToken(access_token) as JwtPayload | null ;
+                    if (payload
+                         && Array.isArray(payload?.recipient)
+                          && payload?.recipient?.includes(WHERE_IAM)
+                           && payload?.user){
+                            return payload.user as Omit<User, 'password'>
                     }
                 }
-
 
                 return null
             }

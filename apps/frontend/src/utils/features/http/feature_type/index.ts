@@ -7,8 +7,8 @@ import { Server as ResServer } from "./response/server";
 import {Client as ResClient} from "./response/client"
 
 class Req {
-    private serverSideFeatures : ReqServer;
-    private clientSideFeatures : ReqClient;
+    public serverSideFeatures : ReqServer;
+    public clientSideFeatures : ReqClient;
     constructor (private request: Request){
         this.request = request;
         this.serverSideFeatures = new ReqServer(request);
@@ -17,8 +17,8 @@ class Req {
 }
 
 class Res {
-    private serverSideFeatures : ResServer;
-    private clientSideFeatures : ResClient;
+    public serverSideFeatures : ResServer;
+    public clientSideFeatures : ResClient;
     constructor (private response: Response){
         this.response = response;
         this.serverSideFeatures = new ResServer(response);
