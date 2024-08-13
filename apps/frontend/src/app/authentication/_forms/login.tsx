@@ -49,7 +49,7 @@ type ForgotPasswordPayload = {
         recipient: string[],
         token: {
             email: string,
-            expiresInTimeStamp: number
+            expiresInTimestamp: number
         }
     }
 }
@@ -79,15 +79,28 @@ export function LoginForm(){
                 body: JSON.stringify(values)
             });
             const payload = await response.json();
+
+            const renderUserFriendlyToastData = () => {
+                if (payload?.userFriendlyData && payload.userFriendlyData?.toast){
+                    const {message, type, position} = payload.userFriendlyData.toast;''
+                    if (message && type && position){
+                        const cstmToast = type === 'ERROR' ? toast.error: toast.success;
+                        cstmToast(message);
+                    }
+                }
+            }
     
             if (response.ok){
                 const {access_token} = payload;
                 if (access_token){
+                    // render toast message if got from response
+                    renderUserFriendlyToastData();
                     await signIn('credentials', {
                         access_token,
                         redirect: true,
-                        redirectTo: '/bchat',
+                        callbackUrl: '/bchat'
                     });
+                    return;
                 } else {
                     // even though this condition is very rare but still useful to handle it.
                     toast.error("Oops! Somthing unexpected happened");
@@ -96,19 +109,13 @@ export function LoginForm(){
                 // 406 staus code means activate forgot_password
                 if (response.status === 406){
                     const forgotPasswordPayload: ForgotPasswordPayload = payload;
-                    toast.error("Invalid credentials!");
+                    toast.error("Invalid credentials!. Did you forgot your password?");
                     setForgotPasswordPayload(forgotPasswordPayload);
                 };
             };
     
             // if any toast needed to display
-            if (payload?.userFriendlyData && payload.userFriendlyData?.toast){
-                const {message, type, position} = payload.userFriendlyData.toast;''
-                if (message && type && position){
-                    const cstmToast = type === 'ERROR' ? toast.error: toast.success;
-                    cstmToast(message);
-                }
-            }
+            renderUserFriendlyToastData()
     
         };
         try {
@@ -125,7 +132,7 @@ export function LoginForm(){
         forgotPasswordPayload
          && forgotPasswordPayload.metadata.recipient.includes(WHERE_IAM)
           && forgotPasswordPayload.metadata.token.email === form.getValues('email').trim()
-           && forgotPasswordPayload.metadata.token.expiresInTimeStamp > Date.now()
+           && forgotPasswordPayload.metadata.token.expiresInTimestamp > Date.now()
     );
 
     return (

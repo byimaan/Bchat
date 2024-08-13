@@ -72,27 +72,34 @@ export default function RegisterForm(){
             });
     
             const payload = await response.json();
+
+            const renderUserFriendlyToastData = () => {
+                if (payload?.userFriendlyData && payload.userFriendlyData?.toast){
+                    const {message, type, position} = payload.userFriendlyData.toast;''
+                    if (message && type && position){
+                        const cstmToast = type === 'ERROR' ? toast.error: toast.success;
+                        cstmToast(message);
+                    }
+                }
+            }
     
             if (response.ok){
                 const {access_token} = payload;
                 if (access_token){
+                    renderUserFriendlyToastData()
                     await signIn('credentials', {
                         access_token,
                         redirect: true,
-                        redirectTo: '/bchat',
+                        callbackUrl: '/bchat',
                     });
+                    return
                 } else {
                     // even though this condition is very rare but still useful to handle it.
                     toast.error("Oops! Somthing unexpected happened");
                 }
             }
     
-            if (payload?.userFriendlyData && payload?.userFriendlyData?.toast){
-                let cstmToast = toast.error;
-                const {message, type, position} = payload.userFriendlyData.toast;
-                if (type === 'SUCCESS') cstmToast = toast.success;
-                cstmToast(message)
-            }
+            renderUserFriendlyToastData()
     
         };
         try {
