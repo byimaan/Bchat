@@ -1,5 +1,10 @@
-# Turborepo starter
+## Application architecture 
+### Byimaan
+![BChat arch image](https://github.com/user-attachments/assets/f0b01984-bb90-450c-a05f-7fe6ccc7e0f6)
 
+
+
+## Turborepo starter
 This is an official starter Turborepo.
 
 ## Using this example
